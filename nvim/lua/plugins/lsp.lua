@@ -121,6 +121,7 @@ return {
       },
       on_attach = function (_, bufnr)
         lsp.default_keymaps({buffer = bufnr})
+        vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
         -- Imports & formatting
         vim.api.nvim_create_autocmd("BufWritePre", {
           pattern = "*.go",

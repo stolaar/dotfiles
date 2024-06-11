@@ -1,22 +1,23 @@
 return {
   'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
-  config = function ()
+  config = function()
     local lualine = require('lualine')
 
     local colors = {
-      bg       = '#202328',
-      fg       = '#bbc2cf',
-      yellow   = '#ECBE7B',
-      cyan     = '#008080',
-      darkblue = '#081633',
-      green    = '#98be65',
-      orange   = '#FF8800',
-      violet   = '#a9a1e1',
-      magenta  = '#c678dd',
-      blue     = '#51afef',
-      red      = '#ec5f67',
-      purple   = '#5f00af'
+      bg         = '#202328',
+      fg         = '#bbc2cf',
+      yellow     = '#ECBE7B',
+      cyan       = '#008080',
+      darkblue   = '#081633',
+      green      = '#98be65',
+      orange     = '#FF8800',
+      darkorange = '#CC7832',
+      violet     = '#a9a1e1',
+      magenta    = '#c678dd',
+      blue       = '#51afef',
+      red        = '#ec5f67',
+      purple     = '#5f00af'
     }
 
     local conditions = {
@@ -79,13 +80,13 @@ return {
       function()
         return '▊'
       end,
-      color = { fg = colors.purple }, -- Sets highlighting of component
-      padding = { left = 0, right = 1 }, -- We don't need space before this
+      color = { fg = colors.darkorange }, -- Sets highlighting of component
+      padding = { left = 0, right = 1 },  -- We don't need space before this
     }
 
     ins_left {
       function()
-        return '⚔️'
+        return ''
       end,
       color = function()
         -- auto change color according to neovims mode
@@ -113,14 +114,25 @@ return {
         }
         return { fg = mode_color[vim.fn.mode()] }
       end,
-      padding = { right = 1 },
+      padding = { right = 0.5 },
+    }
+
+    ins_left {
+      'branch',
+      icon = '',
+      color = { fg = colors.violet, gui = 'bold' },
+    }
+
+    ins_left {
+      'filetype',
+      colored = true,
+      icon_only = true,
     }
 
     ins_left {
       'filename',
       cond = conditions.buffer_not_empty,
-      color = { fg = colors.magenta, gui = 'bold' },
-      path = 1
+      color = { fg = colors.darkorange, gui = 'bold' },
     }
 
     ins_left {
@@ -157,28 +169,23 @@ return {
       color = { fg = colors.green, gui = 'bold' },
     }
 
-    ins_right {
-      'branch',
-      icon = '',
-      color = { fg = colors.violet, gui = 'bold' },
-    }
 
     ins_right {
       'diff',
-      symbols = { added = ' ', modified = '󰝤 ', removed = ' ' },
+      symbols = { added = ' ', modified = ' ', removed = ' ' },
       diff_color = {
         added = { fg = colors.green },
         modified = { fg = colors.orange },
         removed = { fg = colors.red },
       },
-     cond = conditions.hide_in_width,
+      cond = conditions.hide_in_width,
     }
 
     ins_right {
       function()
         return '▊'
       end,
-      color = { fg = colors.purple },
+      color = { fg = colors.darkorange },
       padding = { left = 1 },
     }
 
