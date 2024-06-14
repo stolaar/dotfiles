@@ -211,6 +211,7 @@ bindsym Mod1+r mode "resize"
 #######################################################################
 
 ### Custom settings
+focus_follows_mouse no
 
 # Disable title borders
 default_border pixel 1
@@ -249,4 +250,6 @@ exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 
 # i3lock
 exec_always --no-startup-id i3lock -c 000000 -t -i "~/Pictures/op-blur.png"
+
+
 
