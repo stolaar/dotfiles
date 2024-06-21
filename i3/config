@@ -53,7 +53,7 @@ floating_modifier Mod1
 
 # start a terminal
 #bindsym Mod1+Return exec i3-sensible-terminal
-bindsym Mod1+Return exec --no-startup-id alacritty
+bindsym Mod1+Return exec --no-startup-id kitty
 
 # kill focused window
 bindsym Mod1+Shift+q kill
