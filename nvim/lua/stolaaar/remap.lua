@@ -91,5 +91,6 @@ vim.keymap.set("n", "<leader>bd", "<cmd>:bd<cr>", { desc = "Delete Buffer" })
 
 vim.keymap.set("n", "<C-Y>", "<cmd>Neotree<cr>")
 
+vim.keymap.set("n", ":", "<cmd>FineCmdline<CR>")
 
 vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
