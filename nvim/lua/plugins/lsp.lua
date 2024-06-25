@@ -19,7 +19,7 @@ return {
     { 'L3MON4D3/LuaSnip' },
     { 'rafamadriz/friendly-snippets' },
   },
-  config = function ()
+  config = function()
     local lsp = require("lsp-zero")
     local lspconfig = require('lspconfig')
 
@@ -85,28 +85,29 @@ return {
 
     local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
     local lsp_format_on_save = function(bufnr)
-      vim.api.nvim_clear_autocmds({group = augroup, buffer = bufnr})
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
       vim.api.nvim_create_autocmd('BufWritePre', {
         group = augroup,
         buffer = bufnr,
         callback = function()
           local ok, result = pcall(
-          vim.cmd,
-          'EslintFixAll'
+            vim.cmd,
+            'EslintFixAll'
           )
           if ok == false then
-           vim.lsp.buf.format()
+            vim.lsp.buf.format()
           end
         end,
       })
     end
 
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
     lspconfig.tsserver.setup({
-      on_attach = function (_, bufnr)
+      capabilities = capabilities,
+      on_attach = function(_, bufnr)
         lsp_format_on_save(bufnr)
       end
     })
-
     lspconfig.gopls.setup({
       settings = {
         gopls = {
@@ -119,8 +120,8 @@ return {
           },
         },
       },
-      on_attach = function (_, bufnr)
-        lsp.default_keymaps({buffer = bufnr})
+      on_attach = function(_, bufnr)
+        lsp.default_keymaps({ buffer = bufnr })
         vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
         -- Imports & formatting
         vim.api.nvim_create_autocmd("BufWritePre", {
@@ -128,7 +129,7 @@ return {
           group = augroup,
           callback = function()
             local params = vim.lsp.util.make_range_params()
-            params.context = {only = {"source.organizeImports"}}
+            params.context = { only = { "source.organizeImports" } }
             -- buf_request_sync defaults to a 1000ms timeout. Depending on your
             -- machine and codebase, you may want longer. Add an additional
             -- argument after params if you find that you have to write the file
@@ -143,11 +144,10 @@ return {
                 end
               end
             end
-            vim.lsp.buf.format({async = false})
+            vim.lsp.buf.format({ async = false })
           end
         })
       end,
     })
   end
 }
-

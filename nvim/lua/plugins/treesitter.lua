@@ -23,10 +23,6 @@ return {
         -- Instead of true it can also be a list of languages
         additional_vim_regex_highlighting = false,
       },
-      autotag = {
-        enable = true,
-        enable_close_on_slash = false,
-      }
     }
   end
 }
