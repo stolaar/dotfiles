@@ -90,7 +90,7 @@ vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 vim.keymap.set("n", "<leader>bdd", "<cmd>:bd<cr>", { desc = "Delete Buffer" })
 vim.keymap.set("n", "<leader>bda", "<cmd>:%bd|e#|bd#<cr>", { desc = "Delete All Buffers But This One" })
 
-vim.keymap.set("n", "<C-Y>", "<cmd>Neotree<cr>")
+vim.keymap.set("n", "<C-Y>", "<cmd>Neotree toggle <cr>")
 vim.keymap.set("n", "<leader>rv", "<cmd>Neotree reveal<cr>", {desc = "Reveal the active file in the tree"})
 
 vim.keymap.set("n", ":", "<cmd>FineCmdline<CR>")
