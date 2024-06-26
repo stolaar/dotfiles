@@ -11,6 +11,7 @@ return {
         themable = true,
         separator_style = "slant",
         color_icons = true,
+        diagnostics = "nvim_lsp",
       }
     })
   end,
