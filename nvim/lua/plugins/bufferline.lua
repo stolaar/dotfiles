@@ -12,6 +12,10 @@ return {
         separator_style = "slant",
         color_icons = true,
         diagnostics = "nvim_lsp",
+        custom_filter = function(buff)
+          local filetype = vim.bo[buff].filetype
+          return filetype ~= "" and filetype ~= "qf"
+        end
       }
     })
   end,

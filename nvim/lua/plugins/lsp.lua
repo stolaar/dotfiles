@@ -108,6 +108,7 @@ return {
         lsp_format_on_save(bufnr)
       end
     })
+
     lspconfig.gopls.setup({
       settings = {
         gopls = {
