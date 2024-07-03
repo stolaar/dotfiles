@@ -1,7 +1,8 @@
 return {
-  'nvim-telescope/telescope.nvim', tag = '0.1.8',
+  'nvim-telescope/telescope.nvim',
+  tag = '0.1.8',
   dependencies = { { 'nvim-lua/plenary.nvim' } },
-  config = function ()
+  config = function()
     local telescope = require('telescope')
     local builtin = require('telescope.builtin')
 
@@ -25,7 +26,5 @@ return {
     end)
     vim.keymap.set('n', "<leader>pa", builtin.live_grep, {})
     vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
-
   end
 }
-
