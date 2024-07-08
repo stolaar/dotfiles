@@ -248,8 +248,5 @@ exec_always --no-startup-id redshift -x && redshift -O 4750
 # Dunst
 exec_always --no-startup-id dunst -config ~/.config/dunst/dunstrc
 
-# i3lock
-exec_always --no-startup-id i3lock -c 000000 -t -i "~/Pictures/op-blur.png"
-
 
 
