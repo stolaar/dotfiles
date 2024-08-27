@@ -66,7 +66,16 @@ vim.keymap.set("n", "<leader>f", function()
   vim.lsp.buf.format()
   local currentFileName = vim.fn.expand("%:t")
 
-  if currentFileName:sub(-3) == ".ts" or currentFileName:sub(-4) == ".tsx" then
+  if currentFileName:sub(-3) == ".py" then
+    vim.cmd.write()
+		local cwd = vim.fn.getcwd()
+		local filename = vim.api.nvim_buf_get_name(vim.api.nvim_get_current_buf())
+		vim.fn.jobstart({ 'black', filename },
+			{ cwd = cwd, on_exit = function() vim.cmd.edit(filename) end })
+    print("Formatted using black")
+  end
+
+  if currentFileName:sub(-4) == ".ts" or currentFileName:sub(-4) == ".tsx" then
   vim.cmd("EslintFixAll")
 end
 end

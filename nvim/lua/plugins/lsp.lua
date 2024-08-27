@@ -30,6 +30,7 @@ return {
       'tailwindcss',
       'gopls',
       'html',
+      'pyright',
     })
 
     local cmp = require('cmp')
@@ -65,7 +66,9 @@ return {
       -- client.resolved_capabilities.document_formatting = false
       -- end
 
-      vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+      vim.keymap.set("n", "gd", function()
+        vim.lsp.buf.definition()
+      end, opts)
       vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
       vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
       vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
@@ -108,6 +111,15 @@ return {
         lsp_format_on_save(bufnr)
       end
     })
+
+    lspconfig.pyright.setup {
+      on_attach = function(client, bufnr)
+        local opts = { noremap = true, silent = true }
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>vrr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
+        vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+      end
+    }
 
     lspconfig.gopls.setup({
       settings = {
