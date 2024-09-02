@@ -221,7 +221,7 @@ default_floating_border pixel 1
 exec --no-startup-id nm-applet
 
 ### Custom bindings
-bindsym Mod4+L exec --no-startup-id "i3lock -c 000000 -t -i ~/Pictures/op-blur.png"
+bindsym Mod4+L exec --no-startup-id "i3lock -c 000000 -t -i ~/Pictures/op4.jpg"
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec --no-startup-id sudo brightnessctl set +5%
@@ -240,7 +240,7 @@ exec_always --no-startup-id flameshot
 
 # Terminal transparency
 exec_always --no-startup-id picom &
-exec_always --no-startup-id feh --bg-fill ~/Pictures/op2.jpg
+exec_always --no-startup-id feh --bg-fill ~/Pictures/op4.jpg
 
 # Redshift
 exec_always --no-startup-id redshift -x && redshift -O 4750
