@@ -75,7 +75,11 @@ vim.keymap.set("n", "<leader>f", function()
     print("Formatted using black")
   end
 
-  if currentFileName:sub(-4) == ".ts" or currentFileName:sub(-4) == ".tsx" then
+  if currentFileName:sub(-4) == ".vue" then
+    vim.cmd("EslintFixAll")
+  end
+
+  if currentFileName:sub(-4) == ".ts" or currentFileName:sub(-4) == ".tsx" or currentFileName:sub(-4) == ".vue" then
   vim.cmd("EslintFixAll")
 end
 end
@@ -101,6 +105,8 @@ vim.keymap.set("n", "<leader>bda", "<cmd>:%bd|e#|bd#<cr>", { desc = "Delete All 
 
 vim.keymap.set("n", "<C-Y>", "<cmd>Neotree toggle <cr>")
 vim.keymap.set("n", "<leader>rv", "<cmd>Neotree reveal<cr>", {desc = "Reveal the active file in the tree"})
+
+vim.keymap.set("n", "<C-g>", "<cmd>Telescope git_file_history<cr>", {desc = "Get file changes"})
 
 vim.keymap.set("n", ":", "<cmd>FineCmdline<CR>")
 

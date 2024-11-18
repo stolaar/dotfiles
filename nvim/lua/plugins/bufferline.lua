@@ -9,7 +9,7 @@ return {
     bufferline.setup({
       options = {
         themable = true,
-        separator_style = "slant",
+        separator_style = "thick",
         color_icons = true,
         diagnostics = "nvim_lsp",
         custom_filter = function(buff)
