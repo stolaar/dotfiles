@@ -22,7 +22,7 @@ local themes = {
         enable = {
           terminal = true,
           legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
-          migrations = true,      -- Handle deprecated options automatically
+          migrations = true,        -- Handle deprecated options automatically
         },
 
         styles = {
@@ -76,7 +76,7 @@ local themes = {
   },
   {
     "rebelot/kanagawa.nvim",
-    config = function ()
+    config = function()
       vim.cmd('colorscheme kanagawa')
     end
   },
@@ -89,6 +89,21 @@ local themes = {
       require('github-theme').setup({})
       vim.cmd('colorscheme github_dark_default')
     end
+  },
+  {
+    'AlexvZyl/nordic.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('nordic').load({
+        cursorline = {
+          theme = "dark",
+        },
+        telescope = {
+          style = "classic",
+        },
+      })
+    end
   }
 }
-return themes[2]
+return themes[4]

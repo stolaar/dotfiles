@@ -10,9 +10,25 @@ return {
     "3rd/image.nvim",              -- Optional image support in preview window: See `# Preview Mode` for more information
   },
   opts = {
+    default_component_configs = {
+      indent = {
+        indent_size = 1,
+        padding = 0,
+      }
+    },
     filesystem = {
       filtered_items = {
         hide_dotfiles = false,
+      },
+    },
+    window = {
+      mappings = {
+        ["c"] = {
+          "copy",
+          config = {
+            show_path = "relative" -- "none", "relative", "absolute"
+          }
+        }
       }
     }
   }

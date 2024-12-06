@@ -5,7 +5,7 @@ return {
     local lualine = require('lualine')
 
     lualine.setup({
-      theme = 'catppuccin'
+      theme = 'nordic'
     })
   end
 }
