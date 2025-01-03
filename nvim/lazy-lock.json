@@ -42,6 +42,7 @@
   "plenary.nvim": { "branch": "master", "commit": "a3e3bc82a3f95c5ed0d7201546d5d2c19b20d683" },
   "prettier.nvim": { "branch": "main", "commit": "d98e732cb73690b07c00c839c924be1d1d9ac5c2" },
   "refactoring.nvim": { "branch": "master", "commit": "d0f1971ec2f139e495c1ad2312b7b2a8e8a16421" },
+  "snacks.nvim": { "branch": "main", "commit": "974bccb126b6b5d7170c519c380207069d23f557" },
   "telescope-git-file-history.nvim": { "branch": "master", "commit": "c27d99ba88ec5f0b6d2b9f9bc67dd3d14c610b25" },
   "telescope.nvim": { "branch": "master", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
   "trouble.nvim": { "branch": "main", "commit": "6efc446226679fda0547c0fd6a7892fd5f5b15d8" },

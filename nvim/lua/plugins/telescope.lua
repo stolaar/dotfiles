@@ -23,6 +23,10 @@ return {
           previewer = false,
         },
       },
+      highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+      }
     })
     require("telescope").load_extension("git_file_history")
 

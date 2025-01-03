@@ -30,45 +30,6 @@ local themes = {
           transparency = true,
         },
 
-        groups = {
-          border = "muted",
-          link = "iris",
-          panel = "surface",
-
-          error = "love",
-          hint = "iris",
-          info = "foam",
-          note = "pine",
-          todo = "rose",
-          warn = "gold",
-
-          git_add = "foam",
-          git_change = "rose",
-          git_delete = "love",
-          git_dirty = "rose",
-          git_ignore = "muted",
-          git_merge = "iris",
-          git_rename = "pine",
-          git_stage = "iris",
-          git_text = "rose",
-          git_untracked = "subtle",
-
-          h1 = "iris",
-          h2 = "foam",
-          h3 = "rose",
-          h4 = "gold",
-          h5 = "pine",
-          h6 = "foam",
-        },
-
-        palette = {
-          -- Override the builtin palette per variant
-          -- moon = {
-          --     base = '#18191a',
-          --     overlay = '#363738',
-          -- },
-        },
-
       })
 
       vim.cmd('colorscheme rose-pine')
@@ -104,6 +65,52 @@ local themes = {
         },
       })
     end
+  },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    config = function()
+      require("catppuccin").setup({
+        flavour = "mocha",
+        background = {
+          light = "mocha",
+          dark = "mocha",
+        },
+        transparent_background = true,
+        show_end_of_buffer = false,   -- shows the '~' characters after the end of buffers
+        term_colors = false,          -- sets terminal colors (e.g. `g:terminal_color_0`)
+        dim_inactive = {
+          enabled = true,            -- dims the background color of inactive window
+          shade = "dark",
+          percentage = 0.25,          -- percentage of the shade to apply to the inactive window
+        },
+        no_italic = false,            -- Force no italic
+        no_bold = false,              -- Force no bold
+        no_underline = false,         -- Force no underline
+        styles = {                    -- Handles the styles of general hi groups (see `:h highlight-args`):
+          comments = { "italic" },    -- Change the style of comments
+          conditionals = { "italic" },
+        },
+        default_integrations = true,
+        integrations = {
+          cmp = true,
+          gitsigns = true,
+          mason = true,
+          nvimtree = true,
+          treesitter = true,
+          telescope = true,
+          alpha = true,
+          notify = true,
+          mini = {
+            enabled = true,
+            indentscope_color = "",
+          },
+        },
+      })
+
+      vim.cmd('colorscheme catppuccin')
+    end,
+    priority = 1000
   }
 }
-return themes[4]
+return themes[5]
