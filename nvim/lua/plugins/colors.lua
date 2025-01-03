@@ -82,23 +82,18 @@ local themes = {
         dim_inactive = {
           enabled = true,            -- dims the background color of inactive window
           shade = "dark",
-          percentage = 0.25,          -- percentage of the shade to apply to the inactive window
-        },
-        no_italic = false,            -- Force no italic
-        no_bold = false,              -- Force no bold
-        no_underline = false,         -- Force no underline
-        styles = {                    -- Handles the styles of general hi groups (see `:h highlight-args`):
-          comments = { "italic" },    -- Change the style of comments
-          conditionals = { "italic" },
+          percentage = 0.35,          -- percentage of the shade to apply to the inactive window
         },
         default_integrations = true,
         integrations = {
           cmp = true,
           gitsigns = true,
           mason = true,
-          nvimtree = true,
+          dashboard = true,
+          neotree = true,
           treesitter = true,
           telescope = true,
+          harpoon = true,
           alpha = true,
           notify = true,
           mini = {
@@ -108,9 +103,10 @@ local themes = {
         },
       })
 
-      vim.cmd('colorscheme catppuccin')
+      vim.cmd('colorscheme catppuccin-mocha')
     end,
     priority = 1000
   }
 }
+
 return themes[5]
