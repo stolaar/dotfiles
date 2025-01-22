@@ -26,7 +26,7 @@ return {
     lsp.preset("recommended")
 
     lsp.ensure_installed({
-      'tsserver',
+      'ts_ls',
       'tailwindcss',
       'gopls',
       'html',
@@ -62,10 +62,6 @@ return {
 
     lsp.on_attach(function(client, bufnr)
       local opts = { buffer = bufnr, remap = false }
-
-      -- if client.name == "tsserver" then
-      -- client.resolved_capabilities.document_formatting = false
-      -- end
 
       vim.keymap.set("n", "gd", function()
         vim.lsp.buf.definition()
@@ -107,7 +103,7 @@ return {
     end
 
     local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    lspconfig.tsserver.setup({
+    lspconfig.ts_ls.setup({
       capabilities = capabilities,
       on_attach = function(_, bufnr)
         lsp_format_on_save(bufnr)
