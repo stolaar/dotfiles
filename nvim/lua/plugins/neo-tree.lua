@@ -12,7 +12,7 @@ return {
   opts = {
     default_component_configs = {
       indent = {
-        indent_marker = "",
+        indent_marker = "|",
         indent_size = 2,
         padding = 0,
       }

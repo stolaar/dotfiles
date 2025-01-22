@@ -240,7 +240,7 @@ exec_always --no-startup-id flameshot
 
 # Terminal transparency
 exec_always --no-startup-id picom &
-exec_always --no-startup-id feh --bg-fill ~/Pictures/op7.jpg
+exec_always --no-startup-id feh --bg-fill ~/Pictures/itachi.png
 
 # Redshift
 exec_always --no-startup-id redshift -x && redshift -O 4750

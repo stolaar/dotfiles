@@ -109,4 +109,4 @@ local themes = {
   }
 }
 
-return themes[5]
+return themes[1]

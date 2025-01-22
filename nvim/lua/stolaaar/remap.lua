@@ -105,3 +105,26 @@ vim.keymap.set("n", "<C-g>", "<cmd>Telescope git_file_history<cr>", {desc = "Get
 vim.keymap.set("n", ":", "<cmd>FineCmdline<CR>")
 
 vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+
+vim.keymap.set('x', 'ff', function()
+  -- Get the start and end of the selected lines
+  local start_line = vim.fn.line("'<")
+  local end_line = vim.fn.line("'>")
+
+  -- Get the content of the selected lines
+  local lines = vim.fn.getline(start_line, end_line)
+  local chunk = table.concat(lines, "\n")
+
+  -- Run Prettier CLI on the selected lines
+  local prettier_cmd = "prettier --stdin-filepath " .. vim.fn.shellescape(vim.fn.expand("%"))
+  local handle = io.popen(prettier_cmd, "w")
+  if handle then
+    handle:write(chunk)
+    handle:close()
+    local formatted = io.popen(prettier_cmd):read("*a")
+
+    -- Replace the selected lines with the formatted output
+    local formatted_lines = vim.split(formatted, "\n", { trimempty = true })
+    vim.fn.setline(start_line, formatted_lines)
+  end
+end, { desc = "Format visual selection with Prettier" })
