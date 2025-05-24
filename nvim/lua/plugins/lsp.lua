@@ -1,54 +1,65 @@
 return {
   'VonHeikemen/lsp-zero.nvim',
-  branch = 'v1.x',
+  branch = 'v3.x',
   dependencies = {
     -- LSP Support
     { 'neovim/nvim-lspconfig' },
-    { 'williamboman/mason.nvim' },
-    { 'williamboman/mason-lspconfig.nvim' },
+    { 'williamboman/mason.nvim', config = true },
+    {
+      'williamboman/mason-lspconfig.nvim',
+      opts = {
+        ensure_installed = {
+          'ts_ls',
+          'tailwindcss',
+          'gopls',
+          'html',
+          'pyright',
+        },
+      },
+      config = function()
+        require("mason-lspconfig").setup {
+          automatic_enable = {
+            exclude = {
+              "ts_ls"
+            }
+          }
+        }
+      end
+    },
 
     -- Autocompletion
     { 'hrsh7th/nvim-cmp' },
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
-    { 'saadparwaiz1/cmp_luasnip' },
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-nvim-lua' },
+    { 'saadparwaiz1/cmp_luasnip' },
 
     -- Snippets
     { 'L3MON4D3/LuaSnip' },
     { 'rafamadriz/friendly-snippets' },
   },
+
   config = function()
     local lsp = require("lsp-zero")
-    local lspconfig = require('lspconfig')
-
-    lsp.preset("recommended")
-
-    lsp.ensure_installed({
-      'ts_ls',
-      'tailwindcss',
-      'gopls',
-      'html',
-      'pyright',
-    })
-
+    lsp.extend_lspconfig()
 
     local cmp = require('cmp')
     local cmp_select = { behavior = cmp.SelectBehavior.Select }
-    local cmp_mappings = lsp.defaults.cmp_mappings({
-      ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
-      ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-      ['<C-y>'] = cmp.mapping.confirm({ select = true }),
-      ["<C-Space>"] = cmp.mapping.complete(),
+    local cmp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+    cmp.setup({
+      capabilities = cmp_capabilities,
+      mapping = cmp.mapping.preset.insert({
+        ['<Tab>'] = nil,
+        ['<S-Tab>'] = nil,
+        ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+        ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      }),
     })
 
-    cmp_mappings['<Tab>'] = nil
-    cmp_mappings['<S-Tab>'] = nil
-
-    lsp.setup_nvim_cmp({
-      mapping = cmp_mappings
-    })
 
     lsp.set_preferences({
       suggest_lsp_servers = false,
@@ -60,105 +71,75 @@ return {
       }
     })
 
-    lsp.on_attach(function(client, bufnr)
-      local opts = { buffer = bufnr, remap = false }
-
-      vim.keymap.set("n", "gd", function()
-        vim.lsp.buf.definition()
-      end, opts)
-      vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
-      vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
-      vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-      vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end, opts)
-      vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
-      vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
-      vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-      vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
-      vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
-    end)
-
-    lsp.setup()
-
-
     vim.diagnostic.config({
-      virtual_text = true
+      virtual_text = true,
     })
 
     local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+
     local lsp_format_on_save = function(bufnr)
       vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
       vim.api.nvim_create_autocmd('BufWritePre', {
         group = augroup,
         buffer = bufnr,
         callback = function()
-          local ok, result = pcall(
-            vim.cmd,
-            'EslintFixAll'
-          )
-          if ok == false then
-            vim.lsp.buf.format()
+          local ok = pcall(vim.cmd, 'EslintFixAll')
+          if not ok then
+            vim.lsp.buf.format({ async = false })
           end
         end,
       })
     end
 
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    lspconfig.ts_ls.setup({
-      capabilities = capabilities,
-      on_attach = function(_, bufnr)
-        lsp_format_on_save(bufnr)
-      end
+    local util = require("lspconfig.util")
+
+    require("lspconfig").ts_ls.setup({
+      root_dir = util.root_pattern('tsconfig.json'),
     })
 
-    lspconfig.pyright.setup {
-      on_attach = function(client, bufnr)
-        local opts = { noremap = true, silent = true }
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>vrr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
-        vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
-      end
-    }
+    lsp.on_attach(function(client, bufnr)
+      local opts = { buffer = bufnr, remap = false }
+      local map = vim.keymap.set
 
-    lspconfig.gopls.setup({
-      settings = {
-        gopls = {
-          completeUnimported = true,
-          usePlaceholders = true,
-          gofumpt = true,
-          staticcheck = true,
-          analyses = {
-            unusedparams = true,
-          },
-        },
-      },
-      on_attach = function(_, bufnr)
-        lsp.default_keymaps({ buffer = bufnr })
-        vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
-        -- Imports & formatting
+      map("n", "gd", function() vim.lsp.buf.definition() end, opts)
+      map("n", "K", function() vim.lsp.buf.hover() end, opts)
+      map("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+      map("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+      map("n", "[d", function() vim.diagnostic.goto_next() end, opts)
+      map("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
+      map("n", "<leader>vca", function() vim.lsp.buf.code_action() end, opts)
+      map("n", "<leader>vrr", function() vim.lsp.buf.references() end, opts)
+      map("n", "<leader>vrn", function() vim.lsp.buf.rename() end, opts)
+      map("n", "gl", function() vim.lsp.buf.rename() end, opts)
+      map("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
+
+      -- Optional per-language hooks
+      if client.name == "ts_ls" then
+        lsp_format_on_save(bufnr)
+      end
+
+      if client.name == "gopls" then
         vim.api.nvim_create_autocmd("BufWritePre", {
           pattern = "*.go",
           group = augroup,
           callback = function()
             local params = vim.lsp.util.make_range_params()
             params.context = { only = { "source.organizeImports" } }
-            -- buf_request_sync defaults to a 1000ms timeout. Depending on your
-            -- machine and codebase, you may want longer. Add an additional
-            -- argument after params if you find that you have to write the file
-            -- twice for changes to be saved.
-            -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-            local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params)
-            for cid, res in pairs(result or {}) do
+            local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+            for _, res in pairs(result or {}) do
               for _, r in pairs(res.result or {}) do
                 if r.edit then
-                  local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+                  local enc = (client or {}).offset_encoding or "utf-16"
                   vim.lsp.util.apply_workspace_edit(r.edit, enc)
                 end
               end
             end
             vim.lsp.buf.format({ async = false })
-          end
+          end,
         })
-      end,
-    })
-  end
+      end
+    end)
+
+    lsp.setup()
+  end,
 }

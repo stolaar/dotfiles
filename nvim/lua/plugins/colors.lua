@@ -106,7 +106,14 @@ local themes = {
       vim.cmd('colorscheme catppuccin-mocha')
     end,
     priority = 1000
-  }
+  },
+  { "EdenEast/nightfox.nvim",
+  config = function ()
+   require("nightfox").setup({})
+   vim.cmd("colorscheme dayfox")
+
+  end
+}
 }
 
-return themes[1]
+return themes[3]

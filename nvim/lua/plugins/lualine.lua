@@ -5,8 +5,9 @@ return {
     local lualine = require('lualine')
 
     lualine.setup({
+      default = true,
       options = {
-        theme = "rose-pine"
+        theme = "github_dark_default"
       },
     })
   end

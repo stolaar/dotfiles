@@ -128,3 +128,5 @@ vim.keymap.set('x', 'ff', function()
     vim.fn.setline(start_line, formatted_lines)
   end
 end, { desc = "Format visual selection with Prettier" })
+
+vim.keymap.set("n", "<leader>ao", "<cmd>AerialToggle <cr>", {desc = "Toggle aerial window"})
